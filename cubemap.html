@@ -13,18 +13,29 @@
 
             import { OrbitControls } from './js/controls/OrbitControls.js';
 
+            import Stats from './js/libs/stats.module.js';
+
+            var container, stats;
+
+            var SCREEN_WIDTH = window.innerWidth;
+            var SCREEN_HEIGHT = window.innerHeight;
+            var aspect_ratio = SCREEN_WIDTH / SCREEN_HEIGHT
+
             var camera, controls, scene, renderer;
 
             function init() {
+                container = document.createElement( 'div' );
+                document.body.appendChild( container );
+
                 // Render
                 renderer = new THREE.WebGLRenderer( { antialias: true } );
                 renderer.setSize( window.innerWidth, window.innerHeight );
-                document.body.appendChild( renderer.domElement );
+                container.appendChild( renderer.domElement );
 
                 // Camera
                 camera = new THREE.PerspectiveCamera(
                     30,
-                    window.innerWidth / window.innerHeight,
+                    aspect_ratio,
                     0.1,
                     100);
                 camera.position.x = -4;
@@ -70,6 +81,10 @@
                     scene.add( boxMesh );
                 }
 
+                // FPS stats
+                stats = new Stats();
+                container.appendChild( stats.dom );
+
                 window.addEventListener( 'resize', onWindowResize, false );
             }
 
@@ -85,14 +100,15 @@
                 camera.lookAt( 0, 0, 0);
 
                 controls.update();
+                stats.update();
 
                 renderer.render( scene, camera );
             }
 
             function onWindowResize() {
-                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.aspect = aspect_ratio;
                 camera.updateProjectionMatrix();
-                renderer.setSize( window.innerWidth, window.innerHeight );
+                renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
             }
 
             init();
