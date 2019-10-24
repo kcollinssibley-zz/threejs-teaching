@@ -69,9 +69,11 @@
 
                 // Box
                 var boxGeometry = new THREE.BoxGeometry( 0.2, 0.2, 0.2 );
-                var boxMaterial = new THREE.MeshPhongMaterial( { color: 0xffffff, flatShading: true });
 
-                for ( var i = 0; i < 100; i++ ) {
+                for ( var i = 0; i < 1000; i++ ) {
+                    var boxMaterial = new THREE.MeshPhongMaterial( { flatShading: true });
+                    boxMaterial.color.setHex( Math.random() * 0xFFFFFF << 0 );
+
                     var boxMesh = new THREE.Mesh( boxGeometry, boxMaterial );
                     boxMesh.position.x = Math.random() * 10 - 5;
                     boxMesh.position.y = Math.random() * 10 - 5;
@@ -94,7 +96,7 @@
                 var timer = Date.now() * 0.0001;
 
                 camera.position.x = Math.cos( timer ) * 20;
-                camera.position.z = 10;
+                camera.position.y = 3;
                 camera.position.z = Math.sin ( timer ) * 20;
 
                 camera.lookAt( 0, 0, 0);
